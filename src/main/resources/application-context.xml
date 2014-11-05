@@ -34,4 +34,12 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<context:annotation-config></context:annotation-config>
+	
+	<bean id="dao" class="krntn.syl.gestionnairecontact.dao.DAOImpl"></bean>
+	<bean id="adminDao" class="krntn.syl.gestionnairecontact.metier.dao.AdminDAO">
+		<property name="dao" ref="dao"></property>
+	</bean>
+	<bean id="contactDao" class="krntn.syl.gestionnairecontact.metier.dao.ContactDAO">
+		<property name="dao" ref="dao"></property>
+	</bean>
 </beans>

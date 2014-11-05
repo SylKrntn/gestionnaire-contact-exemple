@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(schema="gestcont")
@@ -19,7 +20,9 @@ public class Contact implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@Size(min=4, max=255)
 	private String nom;
+	@Size(min=2, max=255)
 	private String prenom;
 	private String telephone;
 	private String mail;

@@ -21,4 +21,38 @@ public class Role implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nom;
+	
+	
+	/* ////////////////// */
+	/* // CONSTRUCTORS // */
+	/* ////////////////// */
+	public Role() { }
+	
+	
+	/* ///////////// */
+	/* // GETTERS // */
+	/* ///////////// */
+	public Integer getId() {
+		return id;
+	}
+
+
+	public String getNom() {
+		return nom;
+	}
+
+
+	/* ///////////// */
+	/* // SETTERS // */
+	/* ///////////// */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	
+	
 }
