@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="user", schema="gestcont")
@@ -23,6 +24,8 @@ public class User implements Serializable {
 	private Integer id;
 	private String login;
 	private String mdp;
+	@Transient
+	private String mdpConf;
 	private boolean actived;
 	@OneToMany
 	@JoinColumn(name="user_id")
@@ -38,6 +41,14 @@ public class User implements Serializable {
 		super();
 		this.login = login;
 		this.mdp = mdp;
+		this.actived = actived;
+	}
+	
+	public User(String login, String mdp, String mdpConf, boolean actived) {
+		super();
+		this.login = login;
+		this.mdp = mdp;
+		this.mdpConf = mdpConf;
 		this.actived = actived;
 	}
 	
@@ -64,6 +75,10 @@ public class User implements Serializable {
 	public String getMdp() {
 		return mdp;
 	}
+	
+	public String getMdpConf() {
+		return mdpConf;
+	}
 
 	public boolean isActived() {
 		return actived;
@@ -87,6 +102,10 @@ public class User implements Serializable {
 
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
+	}
+	
+	public void setMdpConf(String mdpConf) {
+		this.mdpConf = mdpConf;
 	}
 
 	public void setActived(boolean actived) {

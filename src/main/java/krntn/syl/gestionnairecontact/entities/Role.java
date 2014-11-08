@@ -30,11 +30,10 @@ public class Role implements Serializable {
 	/* ////////////////// */
 	public Role() { }
 	
-//	public Role(String nom, User user) {
-//		super();
-//		this.nom = nom;
-//		this.user = user;
-//	}
+	public Role(String nom) {
+		super();
+		this.nom = nom;
+	}
 	
 //	public Role(Integer id, String nom, User user) {
 //		super();

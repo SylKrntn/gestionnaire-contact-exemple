@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${appName}</title>
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style1.css">
+		<title><c:out value="${appName}" /></title>
+		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	
 	<body>
@@ -25,8 +25,8 @@
 						<f:input path="mdp" type="password"/>
 						<f:errors cssClass="errors"></f:errors><br />
 						
-						<f:label path="mdp" cssClass="label">Confirmation du mot de passe :</f:label>
-						<f:input path="mdp" type="password"/>
+						<f:label path="mdpConf" cssClass="label">Confirmation du mot de passe :</f:label>
+						<f:input path="mdpConf" type="password"/>
 						<f:errors cssClass="errors"></f:errors><br />
 						
 						<input type="submit" value="Créer un compte" />
