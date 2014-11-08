@@ -14,4 +14,6 @@ public interface IContactDAO {
 	public void removeContact(Integer contactId);
 	
 	public User findUser(Integer userId);
+	public User findUser(String login, String password);
+	public User findUserByName(String login);
 }

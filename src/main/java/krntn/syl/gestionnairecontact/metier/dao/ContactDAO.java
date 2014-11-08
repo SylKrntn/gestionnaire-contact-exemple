@@ -51,4 +51,14 @@ public class ContactDAO implements IContactDAO {
 	public User findUser(Integer userId) {
 		return dao.findUser(userId);
 	}
+	
+	@Override
+	public User findUser(String login, String password) {
+		return dao.findUser(login, password);
+	}
+
+	@Override
+	public User findUserByName(String login) {
+		return dao.findUserByName(login);
+	}
 }

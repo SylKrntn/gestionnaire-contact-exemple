@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(schema="gestcont")
+@Table(name="contact", schema="gestcont")
 public class Contact implements Serializable {
 	/* //////////////// */
 	/* // PROPERTIES // */

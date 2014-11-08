@@ -10,6 +10,8 @@ public interface IDAO {
 
 	public Integer addUser(User user);
 	public User findUser(Integer userId);
+	public User findUser(String login, String password);
+	public User findUserByName(String login);
 	public ArrayList<User> getUsers();
 	public void updateUser(User user);
 	public void removeUser(Integer userId);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.transaction.annotation.Transactional;
 
 import krntn.syl.gestionnairecontact.dao.IDAO;
+import krntn.syl.gestionnairecontact.entities.Contact;
 import krntn.syl.gestionnairecontact.entities.Role;
 import krntn.syl.gestionnairecontact.entities.User;
 
@@ -26,6 +27,16 @@ public class AdminDAO implements IAdminDAO {
 	@Override
 	public User findUser(Integer userId) {
 		return dao.findUser(userId);
+	}
+	
+	@Override
+	public User findUser(String login, String password) {
+		return dao.findUser(login, password);
+	}
+	
+	@Override
+	public User findUserByName(String login) {
+		return dao.findUserByName(login);
 	}
 	
 	@Override
@@ -67,6 +78,43 @@ public class AdminDAO implements IAdminDAO {
 	@Override
 	public void setUserRole(Role role, Integer userId) {
 		dao.setUserRole(role, userId);
+	}
+
+
+	@Override
+	public Integer addContact(Contact contact) {
+		dao.addContact(contact);
+		return contact.getId();
+	}
+
+
+	@Override
+	public Contact findUserContact(Integer contactId, Integer userId) {
+		return dao.findUserContact(contactId, userId);
+	}
+
+
+	@Override
+	public ArrayList<Contact> getUserContacts(Integer userId) {
+		return dao.getUserContacts(userId);
+	}
+
+
+	@Override
+	public ArrayList<Contact> getContacts() {
+		return dao.getContacts();
+	}
+
+
+	@Override
+	public void updateContact(Contact contact) {
+		dao.updateContact(contact);
+	}
+
+
+	@Override
+	public void removeContact(Integer contactId) {
+		dao.removeContact(contactId);
 	}
 	
 }

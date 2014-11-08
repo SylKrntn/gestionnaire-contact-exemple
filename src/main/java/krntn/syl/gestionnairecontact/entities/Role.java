@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(schema="gestcont")
+@Table(name="role", schema="gestcont")
 public class Role implements Serializable {
 	/* //////////////// */
 	/* // PROPERTIES // */
@@ -21,6 +21,8 @@ public class Role implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nom;
+//	@ManyToOne
+//	private User user;
 	
 	
 	/* ////////////////// */
@@ -28,7 +30,22 @@ public class Role implements Serializable {
 	/* ////////////////// */
 	public Role() { }
 	
+//	public Role(String nom, User user) {
+//		super();
+//		this.nom = nom;
+//		this.user = user;
+//	}
 	
+//	public Role(Integer id, String nom, User user) {
+//		super();
+//		this.id = id;
+//		this.nom = nom;
+//		this.user = user;
+//	}
+
+
+
+
 	/* ///////////// */
 	/* // GETTERS // */
 	/* ///////////// */
@@ -40,6 +57,10 @@ public class Role implements Serializable {
 	public String getNom() {
 		return nom;
 	}
+	
+//	public User getUser() {
+//		return user;
+//	}
 
 
 	/* ///////////// */
@@ -54,5 +75,7 @@ public class Role implements Serializable {
 		this.nom = nom;
 	}
 	
-	
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 }

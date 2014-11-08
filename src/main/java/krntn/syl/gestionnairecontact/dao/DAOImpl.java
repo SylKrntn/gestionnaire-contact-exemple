@@ -26,6 +26,19 @@ public class DAOImpl implements IDAO {
 		return em.find(User.class, userId);
 	}
 	@Override
+	public User findUser(String login, String password) {
+		Query query = em.createQuery("SELECT u FROM User u WHERE u.login=:username AND u.mdp=:pass");
+		query.setParameter("username", (String)login);
+		query.setParameter("pass", (String)password);
+		return (User) query.getResultList().get(0);
+	}
+	@Override
+	public User findUserByName(String login) {
+		Query query = em.createQuery("SELECT u FROM User u WHERE u.login=:username");
+		query.setParameter("username", (String)login);
+		return (User) query.getResultList().get(0);
+	}
+	@Override
 	public void updateUser(User user) {
 		em.merge(user);
 	}

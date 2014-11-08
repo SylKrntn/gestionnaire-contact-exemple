@@ -6,9 +6,10 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Insert title here</title>
+		<title>${appName}</title>
 	</head>
 	<body>
+		<h1>Bienvenue ${username} | <a href="${pageContext.request.contextPath}/">Se déconnecter</a></h1>
 		<f:form modelAttribute="contact" action="saveContact" method="post">
 			<f:label path="nom">Nom :</f:label>
 			<f:input path="nom" type="text" />

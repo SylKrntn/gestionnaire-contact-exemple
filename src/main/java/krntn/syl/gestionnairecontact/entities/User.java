@@ -3,6 +3,7 @@ package krntn.syl.gestionnairecontact.entities;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(schema="gestcont")
+@Table(name="user", schema="gestcont")
 public class User implements Serializable {
 	/* //////////////// */
 	/* // PROPERTIES // */
@@ -24,6 +25,7 @@ public class User implements Serializable {
 	private String mdp;
 	private boolean actived;
 	@OneToMany
+	@JoinColumn(name="user_id")
 	private Collection<Role> roles;
 	
 	
