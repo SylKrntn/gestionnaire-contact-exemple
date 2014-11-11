@@ -1,0 +1,52 @@
+
+h1 {
+	display: block;
+	margin: 5px;
+	text-align: center;
+}
+.label {
+	display: inline-block;
+	width: 120px;
+	margin: 2px;
+	color: white;
+}
+.error, .errors {
+	color: red;
+}
+
+/* Zone de connexion */
+.espace {
+	display: block;
+	padding: 0;
+	margin: auto;
+}
+.espace-creation-compte, .espace-connexion-compte {
+	display: inline-block;
+	padding: 5px;
+	vertical-align: middle;
+}
+.espace-creation-compte {
+	border: 1px solid black;
+	border-radius: 5px;
+	background: linear-gradient(to bottom right, #636363 0%, #000508 100%);
+}
+.espace-connexion-compte {
+	border: 1px solid grey;
+	border-radius: 5px;
+	background: linear-gradient(to bottom right, #1DAB00 0%, #063B00 100%);
+}
+.espace-creation-compte h1, .espace-connexion-compte h1 {
+	display: block;
+	text-align: center;
+	color: white;
+}
+
+.cadre {
+	display: inline-block;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px;
+}
+.cadre .label {
+	color: black;
+}

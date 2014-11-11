@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="user", schema="gestcont")
@@ -23,8 +24,10 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String login;
+	@Size(min=8)
 	private String mdp;
 	@Transient
+	@Size(min=8)
 	private String mdpConf;
 	private boolean actived;
 	@OneToMany

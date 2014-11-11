@@ -32,24 +32,8 @@ public class HomeController {
 	@Autowired
 	private IAdminDAO dao;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public String home(Locale locale, Model model) {
-//		logger.info("Welcome home! The client locale is {}.", locale);
-//		
-//		Date date = new Date();
-//		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-//		
-//		String formattedDate = dateFormat.format(date);
-//		
-//		model.addAttribute("serverTime", formattedDate );
-//		
-//		return "home";
-//	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public String home(Model model, HttpServletRequest request, HttpServletResponse response) {
 		logger.info("Page de connexion");
 		
@@ -61,6 +45,21 @@ public class HomeController {
 	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
 	public String createAccount(@Valid User u, BindingResult bindingResult, Model model) {
 		logger.info("Page de création de compte");
+		
+		// Vérifie s'il y a des erreurs dans les propriétés de l'entité User
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("appName", "Gestionnaire de contacts");
+//			model.addAttribute("user", new User());
+			return "home";
+		}
+		
+		// Vérifie si les mots de passe sont null et ne sont pas identiques
+		if (u.getMdp() == null || u.getMdpConf() == null || !u.getMdp().equals(u.getMdpConf())) {
+			model.addAttribute("appName", "Gestionnaire de contacts");
+			model.addAttribute("user", new User());
+			model.addAttribute("errorMessage", "Le mot de passe et le mot de passe de confirmation sont différents.");
+			return "home";
+		}
 		
 		u.setActived(true);// active directement l'utilisateur pour les tests
 		dao.addUser(u);

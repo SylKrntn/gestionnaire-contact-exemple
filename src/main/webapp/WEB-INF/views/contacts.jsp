@@ -2,35 +2,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="f" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>${appName}</title>
+		<meta charset="UTF-8">
+		<title><c:out value="${appName}" /></title>
+		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<h1>Bienvenue ${username} | <a href="${pageContext.request.contextPath}/">Se déconnecter</a></h1>
-		<f:form modelAttribute="contact" action="saveContact" method="post">
-			<f:label path="nom">Nom :</f:label>
-			<f:input path="nom" type="text" />
-			<f:errors path="nom" cssClass="errors"></f:errors><br />
-			
-			<f:label path="prenom">Prénom :</f:label>
-			<f:input path="prenom" type="text" />
-			<f:errors path="prenom" cssClass="errors"></f:errors><br />
-			
-			<f:label path="telephone">N° téléphone :</f:label>
-			<f:input path="telephone" type="tel" />
-			<f:errors path="telephone" cssClass="errors"></f:errors><br />
-			
-			<f:label path="mail">E-mail :</f:label>
-			<f:input path="mail" type="email" />
-			<f:errors path="mail" cssClass="errors"></f:errors><br />
-			
-			<input type="submit" value="Enregistrer" />
-		</f:form>
 		
-		<div id="">
+		<!-- Formulaire permettant d'ajouter un contact -->
+		<h2>Ajouter un contact</h2>
+		<div class="cadre">
+			<f:form modelAttribute="contact" action="saveContact" method="post">
+				<f:label path="nom" cssClass="label">Nom :</f:label>
+				<f:input path="nom" type="text" />
+				<f:errors path="nom" cssClass="errors"></f:errors><br />
+				
+				<f:label path="prenom" cssClass="label">Prénom :</f:label>
+				<f:input path="prenom" type="text" />
+				<f:errors path="prenom" cssClass="errors"></f:errors><br />
+				
+				<f:label path="telephone" cssClass="label">N° téléphone :</f:label>
+				<f:input path="telephone" type="tel" />
+				<f:errors path="telephone" cssClass="errors"></f:errors><br />
+				
+				<f:label path="mail" cssClass="label">E-mail :</f:label>
+				<f:input path="mail" type="email" />
+				<f:errors path="mail" cssClass="errors"></f:errors><br />
+				
+				<input type="submit" value="Enregistrer" />
+			</f:form>
+		</div>
+		
+		<!-- Tableau listant les contacts de l'utilisateur -->
+		<h2>Liste des contacts</h2>
+		<div class="cadre">
 			<table>
 				<tr>
 					<th>ID</th>
