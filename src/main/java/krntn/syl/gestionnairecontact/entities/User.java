@@ -23,6 +23,7 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@Column(unique=true)
 	private String login;
 	@Size(min=8)
 	private String mdp;

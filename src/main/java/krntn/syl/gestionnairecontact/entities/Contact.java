@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -24,7 +25,9 @@ public class Contact implements Serializable {
 	private String nom;
 	@Size(min=2, max=255)
 	private String prenom;
+	@Pattern(regexp="^(0|\\+33)[1-9]{1}([-. ]{1}[0-9]{2}){4}$")
 	private String telephone;
+	@Pattern(regexp="^[a-z0-9_-]\\.?[a-z0-9_-]*@[a-z0-9]{1,63}\\.[a-z]{2,4}$")
 	private String mail;
 	@ManyToOne
 	@JoinColumn(name="user_id")

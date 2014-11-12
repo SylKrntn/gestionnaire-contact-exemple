@@ -10,7 +10,8 @@
 		<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<h1>Bienvenue ${username} | <a href="${pageContext.request.contextPath}/">Se déconnecter</a></h1>
+		<h1>Page des contacts</h1>
+		<p>Bienvenue <strong>${username}</strong> | <a href="${pageContext.request.contextPath}/">Se déconnecter</a></p>
 		
 		<!-- Formulaire permettant d'ajouter un contact -->
 		<h2>Ajouter un contact</h2>
