@@ -8,4 +8,4 @@ Ce projet a été réalisé dans le but d'appréhender Spring Framework et déco
 Fonctionnalités :
 - Créer un compte utilisateur
 - Se connecter au compte utilisateur
-- Ajouter des contacts 
+- Ajouter, éditer et supprimer des contacts (utilisateur non admin)
