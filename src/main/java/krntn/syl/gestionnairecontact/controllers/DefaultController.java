@@ -31,7 +31,11 @@ public class DefaultController {
 	UserDetails currentUser = null;
 	User user = null;
 	
-	
+	/**
+	 * 
+	 * @param model
+	 * @return la vue
+	 */
 	@RequestMapping(value = "/contacts", method = RequestMethod.GET)
 	public String contacts(Model model) {
 		logger.info("liste des contacts de l'utilisateur connecté");
@@ -48,25 +52,85 @@ public class DefaultController {
 		return "contacts";
 	}
 	
+	/**
+	 * 
+	 * @param c {Contact} : les données du contact à enregistrer
+	 * @param bindingResult : vérifie la validité des données
+	 * @param model
+	 * @return la vue
+	 */
 	@RequestMapping(value = "/saveContact", method = RequestMethod.POST)
 	public String saveContact(@Valid Contact c, BindingResult bindingResult, Model model) {
 		logger.info("liste des contacts de l'utilisateur connecté");
-		
+		System.out.println(c.toString());
+		// Vérifie s'il y a des erreurs dans les champs...
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("contacts", dao.getUserContacts(user.getId()));
-			return "contacts";
+			return "contacts";// retourne la vue et affiche les erreurs
 		}
 		
+		// Récupère l'utilisateur connecté
 		currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		user = dao.findUserByName((String)currentUser.getUsername());
 		
-		c.setUser(user);
-		dao.addContact(c);
+		if (user != null ) {
+			c.setUser(user);// affecte l'utilisateur au contact (= le contact appartient à l'utilisateur connecté)
+		}
+		
+		// Si le contact a un ID, il existe déjà en BDD, donc c'est une modification
+		if (c.getId() != null) {
+			dao.updateContact(c);
+		}
+		// Sinon, c'est un nouveau contact et on l'ajoute en BDD
+		else {
+			dao.addContact(c);// enregistre le contact en BDD
+		}
 		
 		model.addAttribute("appName", "Gestionnaire de contacts");
 		model.addAttribute("username", user.getLogin());
 		model.addAttribute("contact", new Contact());
 		model.addAttribute("contacts", dao.getUserContacts(user.getId()));
 		return "/contacts";
+	}
+	
+	/**
+	 * 
+	 * @param c
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/editContact", method = RequestMethod.GET)
+	public String editContact(Integer id, Model model) {
+		
+		currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		user = dao.findUserByName((String)currentUser.getUsername());
+		System.out.println("id contact " + id);
+		System.out.println("id user " + user.getId());
+		
+		Contact c = dao.findUserContact(id, user.getId());
+		System.out.println("c.id " + c.getId());
+		model.addAttribute("appName", "Gestionnaire de contacts");
+		model.addAttribute("username", user.getLogin());
+		model.addAttribute("contact", c);
+		model.addAttribute("contacts", dao.getUserContacts(user.getId()));
+		return "contacts";
+	}
+	
+	@RequestMapping(value="/delContact", method = RequestMethod.GET)
+	public String delContact(Integer id, Model model) {
+		
+		currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		user = dao.findUserByName((String)currentUser.getUsername());
+		System.out.println("id contact " + id);
+		System.out.println("id user " + user.getId());
+		
+		dao.removeContact(id);
+		
+		model.addAttribute("appName", "Gestionnaire de contacts");
+		model.addAttribute("username", user.getLogin());
+		model.addAttribute("contact", new Contact());
+		model.addAttribute("contacts", dao.getUserContacts(user.getId()));
+		return "contacts";
 	}
 }

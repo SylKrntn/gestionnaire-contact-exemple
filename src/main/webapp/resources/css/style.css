@@ -1,4 +1,6 @@
-
+a {
+	text-decoration: none;
+}
 h1 {
 	display: block;
 	margin: 5px;
@@ -50,3 +52,30 @@ h1 {
 .cadre .label {
 	color: black;
 }
+
+.btn {
+	display: inline-block;
+	border-radius: 5px;
+	padding: 5px;
+}
+	.red-btn {
+		color: white;
+		background: linear-gradient(to bottom, #FF0000 0%, #330000 100%);
+	}
+		.red-btn:hover {
+			background: linear-gradient(to bottom, #330000 0%, #FF0000 100%);
+		}
+	.green-btn {
+		color: white;
+		background: linear-gradient(to bottom, #1DAB00 0%, #063B00 100%);
+	}
+		.green-btn:hover {
+			background: linear-gradient(to bottom, #063B00 0%, #1DAB00 100%);
+		}
+	.blue-btn {
+		color: white;
+		background: linear-gradient(to bottom, #003CFF 0%, #000C33 100%);
+	}
+		.blue-btn:hover {
+			background: linear-gradient(to bottom, #000C33 0%, #003CFF 100%);
+		}

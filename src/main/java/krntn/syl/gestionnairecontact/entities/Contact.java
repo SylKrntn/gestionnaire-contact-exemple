@@ -25,9 +25,9 @@ public class Contact implements Serializable {
 	private String nom;
 	@Size(min=2, max=255)
 	private String prenom;
-	@Pattern(regexp="^(0|\\+33)[1-9]{1}([-. ]{1}[0-9]{2}){4}$")
+	@Pattern(regexp="^(0|\\+33)[1-9]{1}([-. ]?[0-9]{2}){4}$")
 	private String telephone;
-	@Pattern(regexp="^[a-z0-9_-]\\.?[a-z0-9_-]*@[a-z0-9]{1,63}\\.[a-z]{2,4}$")
+	@Pattern(regexp="^[a-z0-9_-][a-z0-9._-]{1,63}@[a-z0-9]{2,64}\\.[a-z]{2,4}$")
 	private String mail;
 	@ManyToOne
 	@JoinColumn(name="user_id")
@@ -120,6 +120,13 @@ public class Contact implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Contact [id=" + id + ", nom=" + nom + ", prenom=" + prenom
+				+ ", telephone=" + telephone + ", mail=" + mail + ", user="
+				+ user + "]";
 	}
 	
 }

@@ -88,16 +88,16 @@ public class DAOImpl implements IDAO {
 	@Override
 	public Contact findUserContact(Integer contactId, Integer userId) {
 		User user = em.find(User.class, userId);
-		Query query = em.createQuery("SELECT c FROM Contact c WHERE c.user = ? AND c.id = ?");
-		query.setParameter(1, user);
-		query.setParameter(2, contactId);
+		Query query = em.createQuery("SELECT c FROM Contact c WHERE c.user = :utilisateur AND c.id = :contactId");
+		query.setParameter("utilisateur", user);
+		query.setParameter("contactId", contactId);
 		return (Contact) query.getResultList().get(0);
 	}
 	@Override
 	public ArrayList<Contact> getUserContacts(Integer userId) {
 		User user = em.find(User.class, userId);
-		Query query = em.createQuery("SELECT c FROM Contact c WHERE c.user = ?");
-		query.setParameter(1, user);
+		Query query = em.createQuery("SELECT c FROM Contact c WHERE c.user = :utilisateur");
+		query.setParameter("utilisateur", user);
 		return (ArrayList<Contact>) query.getResultList();
 	}
 	@Override

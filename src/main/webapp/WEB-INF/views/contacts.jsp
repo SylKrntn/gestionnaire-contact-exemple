@@ -11,7 +11,7 @@
 	</head>
 	<body>
 		<h1>Page des contacts</h1>
-		<p>Bienvenue <strong>${username}</strong> | <a href="${pageContext.request.contextPath}/">Se déconnecter</a></p>
+		<p>Bienvenue <strong>${username}</strong> | <a class="btn blue-btn" href="${pageContext.request.contextPath}/">Se déconnecter</a></p>
 		
 		<!-- Formulaire permettant d'ajouter un contact -->
 		<h2>Ajouter un contact</h2>
@@ -33,6 +33,7 @@
 				<f:input path="mail" type="email" />
 				<f:errors path="mail" cssClass="errors"></f:errors><br />
 				
+				<f:input path="id" type="hidden" value="${contact.id}" />
 				<input type="submit" value="Enregistrer" />
 			</f:form>
 		</div>
@@ -52,11 +53,13 @@
 				<c:forEach var="ctt" items="${contacts}">
 					<tr>
 						<td>${ctt.id}</td>
-						<td>${ctt.nom}</td>
+						<td>${ctt.nom.toUpperCase()}</td>
 						<td>${ctt.prenom}</td>
 						<td>${ctt.telephone}</td>
 						<td>${ctt.mail}</td>
 						<td>${ctt.user.getId()}</td>
+						<td><a class="btn blue-btn" href="${pageContext.request.contextPath}/defaut/editContact?id=${ctt.id}">Editer</a></td>
+						<td><a class="btn red-btn" href="${pageContext.request.contextPath}/defaut/delContact?id=${ctt.id}">Supprimer</a></td>
 					</tr>
 				</c:forEach>
 			</table>
