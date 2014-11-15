@@ -79,6 +79,19 @@ public class DAOImpl implements IDAO {
 		user.getRoles().add(role);
 	}
 	
+//	@Override
+//	public void removeUserRoles(User user) {
+//		Query query = em.createQuery("SELECT r FROM r WHERE r.user_id = :userId");
+//		query.setParameter("userId", user);
+//		ArrayList<Role> roles = (ArrayList<Role>) query.getResultList();
+//		
+//		if (roles != null) {
+//			for (int i=0; i<roles.size(); i++) {
+//				em.remove(roles.get(i));
+//			}
+//		}
+//	}
+	
 	
 	@Override
 	public Integer addContact(Contact contact) {

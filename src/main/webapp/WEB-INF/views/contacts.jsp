@@ -12,6 +12,11 @@
 	<body>
 		<h1>Page des contacts</h1>
 		<p>Bienvenue <strong>${username}</strong> | <a class="btn blue-btn" href="${pageContext.request.contextPath}/">Se déconnecter</a></p>
+		<c:forEach var="role" items="${privileges}">
+			<c:if test="${role.getNom() eq \"ROLE_ADMIN\"}">
+				<p><a class="btn green-btn" href="${pageContext.request.contextPath}/admin/accueil">Espace Admin</a></p>
+			</c:if>
+		</c:forEach>
 		
 		<!-- Formulaire permettant d'ajouter un contact -->
 		<h2>Ajouter un contact</h2>

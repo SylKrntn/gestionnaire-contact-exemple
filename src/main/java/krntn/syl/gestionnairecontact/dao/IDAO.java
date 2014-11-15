@@ -22,6 +22,7 @@ public interface IDAO {
 	public void removeRole(Integer roleId);
 	
 	public void setUserRole(Role role, Integer userId);
+//	public void removeUserRoles(User user);
 	
 	public Integer addContact(Contact contact);
 	public Contact findUserContact(Integer contactId, Integer userId);

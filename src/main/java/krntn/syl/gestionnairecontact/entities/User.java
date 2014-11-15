@@ -1,10 +1,13 @@
 package krntn.syl.gestionnairecontact.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +34,7 @@ public class User implements Serializable {
 	@Size(min=8)
 	private String mdpConf;
 	private boolean actived;
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER, cascade={CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name="user_id")
 	private Collection<Role> roles;
 	
@@ -58,6 +61,15 @@ public class User implements Serializable {
 	
 	public User(String login, String mdp, boolean actived, Collection<Role> roles) {
 		super();
+		this.login = login;
+		this.mdp = mdp;
+		this.actived = actived;
+		this.roles = roles;
+	}
+	
+	public User(Integer id, String login, String mdp, boolean actived, Collection<Role> roles) {
+		super();
+		this.id = id;
 		this.login = login;
 		this.mdp = mdp;
 		this.actived = actived;
@@ -119,6 +131,12 @@ public class User implements Serializable {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", login=" + login + ", mdp=" + mdp
+				+ ", mdpConf=" + mdpConf + ", actived=" + actived + ", roles="
+				+ roles + "]";
+	}
 	
 }
