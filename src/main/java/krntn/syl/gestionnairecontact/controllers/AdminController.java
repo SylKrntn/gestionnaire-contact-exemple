@@ -88,17 +88,6 @@ public class AdminController {
 		
 		System.out.println(u.toString());
 		
-		User oldUser = dao.findUser(u.getId());
-		u.setRoles(oldUser.getRoles());
-		
-		Collection<Role> roles = u.getRoles();
-		Iterator it = roles.iterator();
-		while (it.hasNext()) {
-			Role role = (Role) it.next();
-			System.out.println(role.getId());
-			System.out.println(role.getNom());
-		}
-		
 		// Vérifie s'il y a des erreurs dans les champs...
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("users", dao.getUsers());
@@ -110,22 +99,24 @@ public class AdminController {
 		user = dao.findUserByName((String)currentUser.getUsername());
 		
 		if (u.getId() != null ) {
-//			Collection<Role> roles = new ArrayList<Role>();
-//			Iterator it = u.getRoles().iterator();
-//			while (it.hasNext()) {
-//				Role role = (Role) it.next();
-//				System.out.println(role);
-//				System.out.println(role.getId());
-//				System.out.println(role.getNom());
-//				System.out.println("nom rôle " + role.getNom());
-//				roles.add(role);
-//			}
-//			u.setRoles(roles);
+			User oldUser = dao.findUser(u.getId());
+			u.setRoles(oldUser.getRoles());
+			
+			Collection<Role> roles = u.getRoles();
+			Iterator it = roles.iterator();
+			while (it.hasNext()) {
+				Role role = (Role) it.next();
+				System.out.println(role.getId());
+				System.out.println(role.getNom());
+			}
+			
 			dao.updateUser(u);
 		}
 		else {
-//			u.setRoles(new ArrayList<Role>());
 			dao.addUser(u);
+			int roleId = dao.addRole(new Role("ROLE_USER"));
+			Role role = dao.findRole(roleId);
+			dao.setUserRole(role, u.getId());
 		}
 		
 		model.addAttribute("appName", "Gestionnaire de contacts");
