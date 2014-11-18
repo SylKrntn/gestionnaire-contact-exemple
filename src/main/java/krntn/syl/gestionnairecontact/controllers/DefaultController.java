@@ -1,7 +1,5 @@
 package krntn.syl.gestionnairecontact.controllers;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 import javax.validation.Valid;
@@ -45,9 +43,6 @@ public class DefaultController {
 	public String contacts(Model model) {
 		logger.info("liste des contacts de l'utilisateur connecté");
 		
-//		currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();;
-//		System.out.println(currentUser.getUsername());
-//		System.out.println(currentUser.getPassword());
 		currentUser = getAuthenticatedUser();
 		user = dao.findUserByName((String)currentUser.getUsername());
 		
@@ -75,16 +70,17 @@ public class DefaultController {
 	public String saveContact(@Valid Contact c, BindingResult bindingResult, Model model) {
 		logger.info("liste des contacts de l'utilisateur connecté");
 		System.out.println(c.toString());
+		
+		// Récupère l'utilisateur connecté
+		currentUser = getAuthenticatedUser();
+		user = dao.findUserByName((String)currentUser.getUsername());
+				
 		// Vérifie s'il y a des erreurs dans les champs...
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("privileges", user.getRoles());
 			model.addAttribute("contacts", dao.getUserContacts(user.getId()));
 			return "contacts";// retourne la vue et affiche les erreurs
 		}
-		
-		// Récupère l'utilisateur connecté
-//		currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		currentUser = getAuthenticatedUser();
-		user = dao.findUserByName((String)currentUser.getUsername());
 		
 		if (user != null ) {
 			c.setUser(user);// affecte l'utilisateur au contact (= le contact appartient à l'utilisateur connecté)
@@ -101,6 +97,7 @@ public class DefaultController {
 		
 		model.addAttribute("appName", "Gestionnaire de contacts");
 		model.addAttribute("username", user.getLogin());
+		model.addAttribute("privileges", user.getRoles());
 		model.addAttribute("contact", new Contact());
 		model.addAttribute("contacts", dao.getUserContacts(user.getId()));
 		return "/contacts";
@@ -125,6 +122,7 @@ public class DefaultController {
 		System.out.println("c.id " + c.getId());
 		model.addAttribute("appName", "Gestionnaire de contacts");
 		model.addAttribute("username", user.getLogin());
+		model.addAttribute("privileges", user.getRoles());
 		model.addAttribute("contact", c);
 		model.addAttribute("contacts", dao.getUserContacts(user.getId()));
 		return "contacts";
@@ -149,6 +147,7 @@ public class DefaultController {
 		
 		model.addAttribute("appName", "Gestionnaire de contacts");
 		model.addAttribute("username", user.getLogin());
+		model.addAttribute("privileges", user.getRoles());
 		model.addAttribute("contact", new Contact());
 		model.addAttribute("contacts", dao.getUserContacts(user.getId()));
 		return "contacts";

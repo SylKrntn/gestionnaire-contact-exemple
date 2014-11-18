@@ -6,9 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,14 +32,11 @@ public class Role implements Serializable {
 		this.nom = nom;
 	}
 	
-//	public Role(Integer id, String nom, User user) {
-//		super();
-//		this.id = id;
-//		this.nom = nom;
-//		this.user = user;
-//	}
-
-
+	public Role(Integer id, String nom) {
+		super();
+		this.id = id;
+		this.nom = nom;
+	}
 
 
 	/* ///////////// */
@@ -52,14 +46,9 @@ public class Role implements Serializable {
 		return id;
 	}
 
-
 	public String getNom() {
 		return nom;
 	}
-	
-//	public User getUser() {
-//		return user;
-//	}
 
 
 	/* ///////////// */
@@ -69,12 +58,13 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", nom=" + nom + "]";
+	}
 	
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
 }

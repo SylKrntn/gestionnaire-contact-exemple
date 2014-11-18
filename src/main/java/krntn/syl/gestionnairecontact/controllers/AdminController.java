@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import krntn.syl.gestionnairecontact.entities.Contact;
@@ -83,10 +84,12 @@ public class AdminController {
 	 * @return la vue et son modèle
 	 */
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-	public String saveUser(@Valid User u, BindingResult bindingResult, Model model) {
+	public String saveUser(@Valid User u, BindingResult bindingResult, HttpServletRequest req, Model model) {
 		logger.info("/admin/saveUser");
 		
 		System.out.println(u.toString());
+		System.out.println(req.getParameter("ROLE_USER"));
+		System.out.println(req.getParameter("ROLE_ADMIN"));
 		
 		// Vérifie s'il y a des erreurs dans les champs...
 		if (bindingResult.hasErrors()) {
@@ -94,29 +97,142 @@ public class AdminController {
 			return "adminUsers";// retourne la vue et affiche les erreurs
 		}
 		
+		String userRole = req.getParameter("ROLE_USER");
+		String adminRole = req.getParameter("ROLE_ADMIN");
+		
 		currentUser = getAuthenticatedUser();
 		
 		user = dao.findUserByName((String)currentUser.getUsername());
 		
+//		u.setRoles(new ArrayList<Role>());
+//		Collection<Role> roless = u.getRoles();
+//		Iterator its = roless.iterator();
+//		while (its.hasNext()) {
+//			Role rolee = (Role) its.next();
+//			System.out.println(rolee);
+//			System.out.println(rolee.toString());
+//			System.out.println(rolee.getId());
+//			System.out.println(rolee.getNom());
+//		}
+		
+		// TODO: factoriser le code et améliorer l'algorithme de mise à jour des données de l'utilisateur
+		// Si l'utilisateur a un ID, c'est une mise à jour
 		if (u.getId() != null ) {
-			User oldUser = dao.findUser(u.getId());
-			u.setRoles(oldUser.getRoles());
+			Collection<Role> rolesToDelete = new ArrayList<Role>();// tableau qui contiendra les rôles à supprimer
+			User oldUser = dao.findUser(u.getId());// contient les anciennes données de l'utilisateur
+			Collection<Role> oldRoles = oldUser.getRoles();// contient les anciens rôles de l'utilisateur
+			oldUser = null;
 			
-			Collection<Role> roles = u.getRoles();
-			Iterator it = roles.iterator();
-			while (it.hasNext()) {
-				Role role = (Role) it.next();
-				System.out.println(role.getId());
-				System.out.println(role.getNom());
+			u.setRoles(oldRoles);// affecte les anciens rôles à l'utilisateur
+			
+			// Si ROLE_USER est coché
+			if (userRole != null) {
+				System.out.println("userRole = on");
+				boolean checked = false;
+				
+				// Si l'utilisateur avait un ou plusieurs rôles,
+				// on vérifie s'il avait déjà le rôle ROLE_USER
+				if (oldRoles != null) {
+					Iterator<Role> it = oldRoles.iterator();
+					while (it.hasNext()) {
+						Role role = (Role) it.next();
+						if (role.getNom().equals("ROLE_USER")) {
+							System.out.println("userRole coché et ROLE_USER existe déjà");
+							checked = true;// confirme que l'utilisateur avait déjà le rôle ROLE_USER
+						}
+					}
+				}
+				// Si l'utilisateur n'avait pas déjà ce rôle, on le lui ajoute
+				if (checked == false) {
+					System.out.println("ajoute ROLE_USER à l'utilisateur");
+					u.getRoles().add(new Role("ROLE_USER"));
+				}
+			}
+			// Si ROLE_USER n'est pas coché
+			else {
+				// Si l'utilisateur avait un ou plusieurs rôles,
+				// on vérifie s'il avait déjà le rôle ROLE_USER
+				if (oldRoles != null) {
+					Iterator<Role> it = oldRoles.iterator();
+					while (it.hasNext()) {
+						Role role = (Role) it.next();
+						// Si l'utilisateur avait déjà ce rôle,
+						// on le marque comme étant à supprimer
+						if (role.getNom().equals("ROLE_USER")) {
+							rolesToDelete.add(role);
+						}
+					}
+				}
 			}
 			
-			dao.updateUser(u);
+			// Si ROLE_ADMIN est coché (même logique que précédemment)
+			if (adminRole != null) {
+				System.out.println("adminRole = on");
+				boolean checked = false;
+				if (oldRoles != null) {
+					Iterator<Role> it = oldRoles.iterator();
+					while (it.hasNext()) {
+						Role role = (Role) it.next();
+						if (role.getNom().equals("ROLE_ADMIN")) {
+							System.out.println("adminRole coché et ROLE_ADMIN existe déjà");
+							checked = true;
+						}
+					}
+				}
+				
+				if (checked == false) {
+					System.out.println("ajoute ROLE_ADMIN à l'utilisateur");
+					u.getRoles().add(new Role("ROLE_ADMIN"));
+				}
+			}
+			// Si ROLE_ADMIN n'est pas coché
+			else {
+				if (oldRoles != null) {
+					Iterator<Role> it = oldRoles.iterator();
+					while (it.hasNext()) {
+						Role role = (Role) it.next();
+						if (role.getNom().equals("ROLE_ADMIN")) {
+							rolesToDelete.add(role);
+						}
+					}
+				}
+			}
+			
+			// Avant de mettre à jour les données de l'utilisateur,
+			// on vérifie s'il y a des rôles à supprimer et on les supprime
+			Iterator<Role> rolesToDeleteIter = rolesToDelete.iterator();
+			while (rolesToDeleteIter.hasNext()) {
+				Role role = (Role) rolesToDeleteIter.next();
+				u.getRoles().remove(role);
+			}
+			
+			dao.updateUser(u);// met à jour l'utilisateur en BDD avec ses nouvelles données
+			
+			// Supprime les rôles qui ne sont plus associés à l'utilisateur dans la BDD
+			rolesToDeleteIter = rolesToDelete.iterator();
+			while (rolesToDeleteIter.hasNext()) {
+				Role role = (Role) rolesToDeleteIter.next();
+				dao.removeRole(role.getId());
+			}
+			
 		}
+		// Si l'utilisateur n'a pas d'ID, c'est un nouvel utilisateur
 		else {
-			dao.addUser(u);
-			int roleId = dao.addRole(new Role("ROLE_USER"));
-			Role role = dao.findRole(roleId);
-			dao.setUserRole(role, u.getId());
+			dao.addUser(u);// enregistre le nouvel utilisateur en BDD
+			
+			// Affecte les rôles à l'utilisateur
+			// Si ROLE_USER est coché, on enregistre ce rôle et on l'ajoute à l'utilisateur
+			if (userRole != null) {
+				int roleId = dao.addRole(new Role("ROLE_USER"));
+				Role role = dao.findRole(roleId);
+				dao.setUserRole(role, u.getId());
+			}
+			//Si ROLE_ADMIN est coché, on enregistre ce rôle et on l'ajoute à l'utilisateur
+			if (adminRole != null) {
+				int roleId = dao.addRole(new Role("ROLE_ADMIN"));
+				Role role = dao.findRole(roleId);
+				dao.setUserRole(role, u.getId());
+			}
 		}
 		
 		model.addAttribute("appName", "Gestionnaire de contacts");
@@ -142,7 +258,7 @@ public class AdminController {
 		
 		User userToEdit = dao.findUser(id);
 		Collection<Role> roles = userToEdit.getRoles();
-		Iterator it = roles.iterator();
+		Iterator<Role> it = roles.iterator();
 		while (it.hasNext()) {
 			Role role = (Role) it.next();
 			System.out.println(role.getId());

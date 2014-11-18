@@ -22,34 +22,43 @@
 		<h2>Ajouter un utilisateur</h2>
 		<div class="cadre">
 			<f:form modelAttribute="user" action="saveUser" method="post">
+				<!-- Login -->
 				<f:label path="login" cssClass="label">Login :</f:label>
 				<f:input path="login" type="text" />
 				<f:errors path="login" cssClass="errors"></f:errors><br />
 				
+				<!-- Mot de passe -->
 				<f:label path="mdp" cssClass="label">Mot de passe :</f:label>
 				<f:input path="mdp" type="password" />
 				<f:errors path="mdp" cssClass="errors"></f:errors><br />
 				
+				<!-- Actif -->
 				<f:label path="actived" cssClass="label">Compte activé ?</f:label>
 				<f:checkbox path="actived" />
 				<f:errors path="actived" cssClass="errors"></f:errors><br />
 				
-				<!-- <f:label path="roles" cssClass="label">Rôles :</f:label>
+				<!-- Rôles -->
+				<label class="label">Rôles :</label>
 				<label>ROLE_USER
 					<input type="checkbox"
-						value="ROLE_USER"
-						checked="<c:forEach var="role" items="${utilisateur.roles}"><c:if test="${role.getNom() eq \"ROLE_USER\"}">checked</c:if></c:forEach>" />
+						name="ROLE_USER" 
+						<c:forEach var="role" items="${user.roles}">
+							<c:if test="${role.getNom() eq \"ROLE_USER\"}">checked="checked"</c:if>
+						</c:forEach> />
 				</label> 
 				<label>ROLE_ADMIN
 					<input type="checkbox"
-						value="ROLE_ADMIN"
-						checked="<c:forEach var="role" items="${utilisateur.roles}"><c:if test="${role.getNom() eq \"ROLE_ADMIN\"}">checked</c:if></c:forEach>" />
-				</label> 
+						name="ROLE_ADMIN" 
+						<c:forEach var="role" items="${user.roles}">
+							<c:if test="${role.getNom() eq \"ROLE_ADMIN\"}">checked="checked"</c:if>
+						</c:forEach> />
+				</label>
 				
-				<f:input path="roles" type="text" />
-				<f:errors path="roles" cssClass="errors"></f:errors><br /> -->
+				<br />
 				
+				<!-- Identifiant de l'utilisateur -->
 				<f:input path="id" type="hidden" value="${user.id}" />
+				<!-- <f:input path="roles" type="hidden" value="${user.roles}" /> -->
 				<input type="submit" value="Enregistrer" />
 			</f:form>
 		</div>
